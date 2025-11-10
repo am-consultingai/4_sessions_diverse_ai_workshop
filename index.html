@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI at Work: From Data to Decisions – AM Consulting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy-900: #0a1128;
+      --navy-800: #0d1b3e;
+      --navy-700: #132955;
+      --navy-600: #1a3a6d;
+      --navy-500: #2563eb;
+      --blue-400: #60a5fa;
+      --blue-300: #93c5fd;
+      --cyan-400: #22d3ee;
+      --cyan-300: #67e8f9;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --card-bg: rgba(19, 41, 85, 0.4);
+      --card-border: rgba(96, 165, 250, 0.15);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+      --gradient-primary: linear-gradient(135deg, var(--navy-700) 0%, var(--navy-900) 100%);
+      --gradient-accent: linear-gradient(135deg, var(--blue-400) 0%, var(--cyan-400) 100%);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--navy-900);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    
+    /* Background Pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(34, 211, 238, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .container {
+      width: min(1280px, 94%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Hover Animation Mixin */
+    .hover-lift {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    /* Header */
+    header {
+      background: rgba(10, 17, 40, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.125rem;
+    }
+    
+    .brand img {
+      height: 40px;
+      width: auto;
+    }
+    
+    .cta-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+    }
+    
+    .cta-nav:hover {
+      background: var(--navy-700);
+      border-color: var(--blue-400);
+      transform: translateY(-2px);
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding: 4rem 0 3rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+    
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    
+    .hero-content {
+      max-width: 100%;
+    }
+    
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      border-radius: 50px;
+      color: var(--blue-300);
+      font-weight: 600;
+      font-size: 0.8125rem;
+      letter-spacing: 0.025em;
+      margin-bottom: 1.5rem;
+    }
+    
+    .type-wrap {
+      min-height: 80px;
+      margin-bottom: 1rem;
+    }
+    
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.75rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    
+    .typing {
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+    }
+    
+    .typing::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      bottom: 0.1em;
+      width: 3px;
+      height: 1em;
+      background: var(--cyan-400);
+      animation: blink 1s step-end infinite;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    
+    .lede {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    
+    .cta-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
+      background: var(--gradient-accent);
+      border: none;
+      border-radius: 14px;
+      color: var(--navy-900);
+      font-weight: 800;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: 0 8px 30px rgba(34, 211, 238, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .cta-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(34, 211, 238, 0.4);
+    }
+    
+    .cta-primary small {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      font-weight: 600;
+    }
+    
+    .hero-image {
+      width: 100%;
+      height: 350px;
+      border-radius: 20px;
+      background: url('assets/sourcing.jpg') center/cover;
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* Sections */
+    section {
+      padding: 4rem 0;
+    }
+    
+    h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    
+    .section-intro {
+      color: var(--text-secondary);
+      font-size: clamp(1rem, 2vw, 1.125rem);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      max-width: 900px;
+    }
+    
+    /* Value Points */
+    .value-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    
+    .value-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .value-card strong {
+      display: block;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--blue-300);
+      margin-bottom: 0.5rem;
+    }
+    
+    .value-card p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    
+    /* Session Cards */
+    .sessions-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .session-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .session-meta {
+      display: inline-block;
+      padding: 0.375rem 0.875rem;
+      background: rgba(34, 211, 238, 0.12);
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      border-radius: 8px;
+      color: var(--cyan-300);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    
+    .session-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+    
+    .session-card p {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    
+    .session-card em {
+      color: var(--blue-400);
+      font-style: normal;
+      font-weight: 600;
+    }
+    
+    /* Outcomes Section */
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    
+    .outcome-item {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      color: var(--text-secondary);
+      font-size: 1.0625rem;
+    }
+    
+    /* Instructor Card */
+    .instructor-card {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .instructor-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--blue-400);
+      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+    }
+    
+    .instructor-info strong {
+      display: block;
+      color: var(--blue-300);
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+    
+    .instructor-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+    
+    .socials a {
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+    
+    .socials img {
+      height: 28px;
+      width: auto;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+    
+    .socials img:hover {
+      opacity: 1;
+    }
+    
+    /* Logistics Grid */
+    .logistics-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .logistics-item {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .logistics-item strong {
+      display: block;
+      color: var(--blue-300);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .logistics-item p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    
+    /* Reserve Section */
+    .reserve-section {
+      text-align: center;
+      padding: 4rem 0;
+      background: var(--gradient-primary);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+    }
+    
+    .reserve-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      box-shadow: var(--shadow-lg);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .reserve-card h2 {
+      margin-bottom: 1rem;
+    }
+    
+    .reserve-card p {
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+      border-top: 1px solid var(--card-border);
+    }
+    
+    /* Responsive Design */
+    @media (min-width: 640px) {
+      .value-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .logistics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .outcomes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .hero {
+        padding: 5rem 0 4rem;
+      }
+      
+      .hero-grid {
+        grid-template-columns: 1.2fr 1fr;
+        gap: 4rem;
+      }
+      
+      section {
+        padding: 5rem 0;
+      }
+      
+      .nav {
+        padding: 1.25rem 0;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .sessions-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.75rem;
+      }
+      
+      .logistics-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    @media (max-width: 639px) {
+      .cta-nav {
+        padding: 0.5rem 1rem;
+        font-size: 0.8125rem;
+      }
+      
+      .brand {
+        font-size: 1rem;
+      }
+      
+      .brand img {
+        height: 32px;
+      }
+      
+      .hero-image {
+        height: 250px;
+      }
+      
+      .instructor-card {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="https://www.amconsultingai.com" target="_blank" rel="noopener">
+        <img src="assets/am_logo.png" alt="AM Consulting logo">
+        <span>AM Consulting</span>
+      </a>
+      <a class="cta-nav" href="#reserve">Reserve the workshop</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="pill">🚀 Live virtual hands-on series</div>
+            <div class="type-wrap">
+              <h1>AI at Work: From Data to <span id="typer" class="typing"></span></h1>
+            </div>
+            <p class="lede">A four-session journey for global professionals with everyday skills. Learn how to use AI to analyze data, tell a marketable story, build a personal assistant, and automate meeting summaries. No prior experience required.</p>
+            <a class="cta-primary hover-lift" href="#reserve">
+              <span>Click to call and reserve</span>
+              <small>AM Consulting</small>
+            </a>
+          </div>
+          <div class="hero-image hover-lift"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why">
+      <div class="container">
+        <h2>Why this workshop</h2>
+        <p class="section-intro">Most teams hear about AI but need clear examples that translate to real work. This series shows AI in action through projects you can use immediately. You watch the instructor build live and follow along to create your own results.</p>
+        <div class="value-grid">
+          <div class="value-card hover-lift">
+            <strong>Practical</strong>
+            <p>Every session ends with a working outcome you can reuse.</p>
+          </div>
+          <div class="value-card hover-lift">
+            <strong>Approachable</strong>
+            <p>Designed for newcomers to AI and tech.</p>
+          </div>
+          <div class="value-card hover-lift">
+            <strong>Impactful</strong>
+            <p>Focus on skills that raise confidence and productivity.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sessions">
+      <div class="container">
+        <h2>The four sessions</h2>
+        <div class="sessions-grid">
+          <article class="session-card hover-lift">
+            <div class="session-meta">Session 1 · AI with Google Sheets</div>
+            <h3>Data made simple</h3>
+            <p>Explore how AI supports organizing, cleaning, and interpreting information in Google Sheets. Learn to ask questions about data, create clear visuals, and produce summaries that non-technical audiences can understand.</p>
+            <p><em>Tools:</em> Google Sheets, ChatGPT, Looker Studio</p>
+            <p><em>Skill:</em> Data literacy and analytical thinking</p>
+          </article>
+          <article class="session-card hover-lift">
+            <div class="session-meta">Session 2 · AI with HTML</div>
+            <h3>Tell a story that sells</h3>
+            <p>Turn ideas into a one-page story that communicates value. Use AI to craft copy, structure sections, and generate visuals, then assemble a simple web page that showcases your product or initiative.</p>
+            <p><em>Tools:</em> ChatGPT, Replit, Canva, DALL·E</p>
+            <p><em>Skill:</em> Storytelling, branding, creative communication</p>
+          </article>
+          <article class="session-card hover-lift">
+            <div class="session-meta">Session 3 · AI with Gemini Gems</div>
+            <h3>Build your own assistant</h3>
+            <p>Create a personal AI assistant that understands your tone and goals. Write clear instructions, test behaviors, and leave with a Gem that can support daily tasks such as drafting emails and analyzing content.</p>
+            <p><em>Tools:</em> Google Gemini</p>
+            <p><em>Skill:</em> Workflow design and prompt engineering</p>
+          </article>
+          <article class="session-card hover-lift">
+            <div class="session-meta">Session 4 · AI with n8n</div>
+            <h3>Automate the work</h3>
+            <p>Design a smart agent that takes meeting notes and creates polished summaries automatically. Learn how n8n connects AI models and Google tools and understand how triggers and actions create full workflows.</p>
+            <p><em>Tools:</em> n8n, ChatGPT, Google Docs or Google Meet</p>
+            <p><em>Skill:</em> Systems thinking and workflow automation</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="outcomes">
+      <div class="container">
+        <h2>What you will gain</h2>
+        <div class="outcomes-grid">
+          <div class="outcome-item hover-lift">Confidence to integrate AI into daily work</div>
+          <div class="outcome-item hover-lift">Four reusable projects that save time and clarify ideas</div>
+          <div class="outcome-item hover-lift">A clear method for asking better questions and interpreting results</div>
+          <div class="outcome-item hover-lift">A mindset that treats AI as a supportive creative partner</div>
+        </div>
+        <div class="instructor-card hover-lift">
+          <img class="instructor-photo" src="assets/avishay.png" alt="Avishay Meron" />
+          <div class="instructor-info">
+            <strong>Instructor</strong>
+            <div class="instructor-name">Avishay Meron of AM Consulting</div>
+            <div class="socials">
+              <a href="https://www.linkedin.com/in/avishay-meron/" target="_blank" rel="noopener">
+                <img src="assets/linkedin.png" alt="Connect on LinkedIn" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="logistics">
+      <div class="container">
+        <h2>Logistics and format</h2>
+        <div class="logistics-grid">
+          <div class="logistics-item hover-lift">
+            <strong>Format</strong>
+            <p>Four live virtual sessions with the instructor performing tasks step by step</p>
+          </div>
+          <div class="logistics-item hover-lift">
+            <strong>Duration</strong>
+            <p>Three hours per session</p>
+          </div>
+          <div class="logistics-item hover-lift">
+            <strong>Approach</strong>
+            <p>Hands-on and interactive. You follow along while the instructor builds live examples</p>
+          </div>
+          <div class="logistics-item hover-lift">
+            <strong>Audience</strong>
+            <p>Global professionals with everyday skills. No prior experience required</p>
+          </div>
+          <div class="logistics-item hover-lift">
+            <strong>Language</strong>
+            <p>English</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reserve-section" id="reserve">
+      <div class="container">
+        <div class="reserve-card hover-lift">
+          <h2>Reserve this workshop for your team</h2>
+          <p>Booking is simple. Click to call AM Consulting and lock in your dates.</p>
+          <a class="cta-primary hover-lift" href="tel:+972544899266">
+            <span>📞 Call 0544 899 266</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> AM Consulting. Empowering teams to work smarter with AI.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const target = document.getElementById('typer');
+    const words = ['Decisions', 'Impact', 'Results', 'Action'];
+    let w = 0; let c = 0; let typing = true;
+    const typeSpeed = 70; const deleteSpeed = 45; const holdTime = 1400;
+    
+    function tick() {
+      const word = words[w];
+      if (typing) {
+        c++;
+        target.textContent = word.slice(0, c);
+        if (c === word.length) { 
+          typing = false; 
+          setTimeout(tick, holdTime); 
+          return; 
+        }
+        setTimeout(tick, typeSpeed);
+      } else {
+        c--;
+        target.textContent = word.slice(0, c);
+        if (c === 0) { 
+          typing = true; 
+          w = (w + 1) % words.length; 
+          setTimeout(tick, typeSpeed); 
+          return; 
+        }
+        setTimeout(tick, deleteSpeed);
+      }
+    }
+    
+    tick();
+  </script>
+</body>
+</html>
